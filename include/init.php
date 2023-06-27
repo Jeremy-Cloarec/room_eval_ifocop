@@ -14,7 +14,7 @@ define('RACINE_SITE', $_SERVER['DOCUMENT_ROOT'] . 'room_eval_ifocop/');
 
 //Constante définisssant l'URL
 
-define('URL', "http://localhost/room_eval_ifocop");
+define('URL', "http://localhost/room_eval_ifocop/");
 
 //Initialisation de variables
 

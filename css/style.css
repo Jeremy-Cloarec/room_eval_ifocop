@@ -1,0 +1,55 @@
+*{
+    box-sizing: border-box;
+
+}
+
+body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+nav{
+    background-color: rgb(231, 231, 231);
+    padding: 10px 0;
+}
+
+footer{
+    background-color: rgb(231, 231, 231);
+    text-align: center;
+}
+
+.form{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.champInput{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: fit-content;
+
+}
+
+div.affichageDanger{
+    padding: 15px;
+    background-color: rgb(255, 210, 210);
+    color: rgb(101, 6, 6);
+    margin: 10px 0;
+    width: fit-content;
+    border-radius: 8px;
+}
+
+
+div.reussiteInscription{
+    padding: 15px;
+    background-color: rgb(215, 255, 210);
+    color: rgb(8, 101, 6);
+    margin: 10px 0;
+    width: fit-content;
+    border-radius: 8px;
+}
+

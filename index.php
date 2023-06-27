@@ -1,7 +1,8 @@
 <?php
 require_once('include/fonctions.php');
-
+require_once('include/init.php');
 ?>
+
 
 <!DOCTYPE html>
 <html lang="fr">
@@ -11,10 +12,17 @@ require_once('include/fonctions.php');
     <title>Document</title>
 </head>
 <body>
+    <div class="globalContainer">
 
-    <?php
-    require_once('include/header.php');
-    ?>
+        <?php
+        require_once('include/header.php');
+        ?>
 
-</body>
-</html>
+        <h1>Accueil</h1>
+
+
+    </div>
+
+
+<?php require_once('include/footer.php');?>
+
