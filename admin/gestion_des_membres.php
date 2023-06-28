@@ -78,8 +78,13 @@ require_once('includeAdmin/headerAdmin.php');
 
                     <!-- Formulaire de modificaations des membres -->
 
+                    <?php 
+                    $actionbutton="?action=add";
+
+                    ?>
+
                     <div class="modifFormulaire">
-                        <a href="?action=add" class="espacemembre btnModifFormulaire">
+                        <a href="<?= $actionbutton;?>" class="espacemembre btnModifFormulaire">
                             <?php if(isset($_GET['action'])): ?>
                                 Modifier le tableau
                             
