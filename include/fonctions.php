@@ -18,10 +18,12 @@ function debug($var, $mode = 1){
 // Vérifier si l'utilisateur est connecté ou non
 
 function internauteConnecte(){
-    if(!isset($_SESSION['membre'])){
-    return FALSE;
+    if(!isset($_SESSION['user'])){
+        return FALSE;
+    
     }else{
-    return TRUE;
+        return TRUE;
+    
     }
 }
 
@@ -29,10 +31,11 @@ function internauteConnecte(){
 // Vérifier le statut de l'utilisateur
 
 function internauteConnecteAdmin(){
-    if(internauteConnecte() && $_SESSION['membre']['statut'] == 1){
-    return TRUE;
+    if(internauteConnecte() && $_SESSION['user']['statut'] == 1){
+        return TRUE;
+
     }else{
-    return FALSE;
+        return FALSE;
     }
 }
 

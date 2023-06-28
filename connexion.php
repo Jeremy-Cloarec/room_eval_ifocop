@@ -1,7 +1,7 @@
 
 <?php
-require_once('include/fonctions.php');
 require_once('include/init.php');
+require_once('include/fonctions.php');
 
 
 //Procédure de déconnexion avec unset
@@ -46,33 +46,67 @@ if(isset($_POST['buttonConnexion'])){
 
         if(password_verify($_POST['mdp'], $user['mdp'])) {
 
-            //Si les deux mdp sont similaires on continue en créant une session utilisateur
+            var_dump($user) . '<br/>';
+
+
+            // //Si les deux mdp sont similaires on continue en créant une session utilisateur
             foreach($user as $key => $value) {
                 if($key != 'mdp'){
-                    $_SESSION['user'][$key] = $value;
+                    $_SESSION['user'][$key] = $value ;
 
-                    //On redirige ensuite l'utilisateur vers : 
+                    // Afficher les données de session pour le débogage
 
-                    //Page admin s'il est admin
+                    echo $key . ': ' . $_SESSION['user'][$key] . '<br>';
+
+                    //Vérifier  état de la connexion
+
+                    // if (internauteConnecte()){
+                    //     echo 'connecté <br>';
+                    // }else {
+                    //     echo 'pas connecté <br>';
+                    // }
+
+                    
+
+                    // if (isset($_SESSION['user']['statut']) && $_SESSION['user']['statut'] == 1) {
+                    //     echo 'Admin<br>';
+                    // } else {
+                    //     echo 'Pas admin<br>';
+                    // }
+
+
+
+
+
+
+
+            //         //On redirige ensuite l'utilisateur vers : 
+
+            //         //Page admin s'il est admin
 
                     if (internauteConnecteAdmin()){
                         header('location:' . URL . 'admin/index.php?action=validate');
                     } 
 
-                    //Page panier s'il vient du panier
+            //         //Page panier s'il vient du panier
                     
                     elseif (isset($_GET['action']) && $_GET['action'] == 'acheter') {
                         header('location' . URL . 'panier.php');
                     }
 
-                    //Page profil
+            //         //Page profil
 
                     else {
                         //C'est un utilisateur lambda, je le redirige vers sa page profil
                         header('location:' . URL . 'profil.php?action=validate');
                     }
+
+            
                 }
+
             }
+
+            
 
         } else{
             // MDP n'existe pas
@@ -85,8 +119,6 @@ if(isset($_POST['buttonConnexion'])){
         $erreur .= '<div class="affichageDanger">Erreur, votre pseudo est inconnu, inscrivez vous ou alors vérifiez votre pseudo !</div>';
     }
 
-
-
 }
 
 
@@ -97,8 +129,8 @@ if(isset($_POST['buttonConnexion'])){
     <div class="globalContainer">
 
         <?php
-        require_once('include/header.php');
         $title = "Connexion";
+        require_once('include/header.php');
         ?>
 
         <main>
@@ -124,7 +156,7 @@ if(isset($_POST['buttonConnexion'])){
                     <div class="champInput">
                         <button name="buttonConnexion" class="buttonConnexion">Valider</button>
                     </div>
-                </form>
+            </form>
 
         </main>
         

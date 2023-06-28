@@ -18,8 +18,9 @@ require_once('include/init.php');
         require_once('include/header.php');
         ?>
 
-        <h1>Accueil</h1>
-
+        <main>
+            <h1>Accueil</h1>
+        </main>
 
     </div>
 

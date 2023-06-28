@@ -15,8 +15,12 @@ require_once('include/fonctions.php');
 <body>
     <header>
         <nav>
-            <ul>
-                <li class="deroulant">Espace membre
+            <div class="logo">
+                <a href=" <?= URL ?>index.php">Room</a>
+            </div>
+            <ul class="ulMenu">
+                <li class="deroulant">
+                    <a href="#" class="espacemembre">Espace membre</a>
                     <ul class="sous">
                         <li><a href="<?php URL ?>inscription.php">Inscription</a></li>
                         <li><a href="<?php URL ?>connexion.php">Connexion</a></li>
