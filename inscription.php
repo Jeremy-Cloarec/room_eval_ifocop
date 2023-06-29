@@ -78,13 +78,8 @@ require_once('include/init.php');
             header('location:' . URL . 'connexion.php?action=validate');
 
         }
-
-
-
+        
     }
-
-
-
 
 ?>
 

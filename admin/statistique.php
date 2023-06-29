@@ -4,7 +4,12 @@ require_once('../include/init.php');
 require_once('../include/fonctions.php');
 
 
-$title= "Admin de " . $_SESSION['user']['pseudo'];
+$title= "Statistiques";
+
+if(!internauteConnecteAdmin()){
+    header('location:' . URL . 'connexion.php');
+    exit();
+}
 
 ?>
 
