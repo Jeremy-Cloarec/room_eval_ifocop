@@ -12,7 +12,7 @@ session_start();
 
 //Constante contenant le chemin physique du projet
 
-define('RACINE_SITE', $_SERVER['DOCUMENT_ROOT'] . 'room_eval_ifocop/');
+define('RACINE_SITE', $_SERVER['DOCUMENT_ROOT'] . '/room_eval_ifocop/');
 
 //Constante définisssant l'URL
 

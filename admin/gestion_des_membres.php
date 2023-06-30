@@ -120,6 +120,7 @@ if(isset($_GET["action"])){
 
         $queryUsers = $pdo->query("SELECT * FROM membre WHERE id_membre ='$_GET[id_membre]' ");
         $userActuel = $queryUsers->fetch(PDO::FETCH_ASSOC);
+    }
     
 
         $id_membre = (isset($userActuel['id_membre'])) ? $userActuel['id_membre'] : "";
@@ -129,15 +130,15 @@ if(isset($_GET["action"])){
         $email = (isset($userActuel['email'])) ? $userActuel['email'] : "";
         $civilite = (isset($userActuel['civilite'])) ? $userActuel['civilite'] : "";
 
-    }
+    
 
-    if(isset($GET['action']) || $_GET['action']=='add'){
-        $pseudo="";
-        $nom="";
-        $prenom="";
-        $email="";
-        $civilite="";
-    }
+    // if(isset($GET['action']) || $_GET['action']=='add'){
+    //     $pseudo="";
+    //     $nom="";
+    //     $prenom="";
+    //     $email="";
+    //     $civilite="";
+    // }
 
     if($_GET['action'] == 'delete'){
 

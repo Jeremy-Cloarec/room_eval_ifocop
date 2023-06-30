@@ -18,58 +18,96 @@ if(!internauteConnecteAdmin()){
 
 if(isset($_GET["action"])){
 
-    if($_POST){
+    if($_POST && isset($_POST["buttonSalles"])){
 
-        if (!isset($_POST['pseudo']) || !preg_match('#^[a-zA-Z0-9- _.]{3,20}$#', $_POST['pseudo'])) {
-            $erreur .= "<div class='affichageDanger'> Pseudo : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre pseudo devra comporter au minimum trois caractère et 20 au maximum.</div>";
+        //id_salle
+        // if (!isset($_POST['id_salle']) || !preg_match('#^[a-zA-Z0-9- _.]{3,20}$#', $_POST['id_salle'])) {
+        //     $erreur .= "<div class='affichageDanger'>id_salle : Pour ce champs, vous avez le droit d'utiliser tous les caractères alphanumériques.</div>";
+        // }
+
+
+        //Titre
+        if (!isset($_POST['titre']) || iconv_strlen($_POST['titre']) < 3 || iconv_strlen($_POST['titre']) > 30) {
+            $erreur .= "<div class='affichageDanger'> Titre : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre titre devra comporter au minimum trois caractère et 30 au maximum.</div>";
         }
 
-
-        //Nom
-        if (!isset($_POST['nom']) || iconv_strlen($_POST['nom']) < 3 || iconv_strlen($_POST['nom']) > 20) {
-            $erreur .= "<div class='affichageDanger'> Nom : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre pseudo devra comporter au minimum trois caractère et 20 au maximum.</div>";
+        //Description
+        if (!isset($_POST['description']) || iconv_strlen($_POST['description']) < 3 || iconv_strlen($_POST['description']) > 80) {
+            $erreur .= "<div class='affichageDanger'> Prénom : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre description devra comporter au minimum trois caractère et 80 au maximum.</div>";
         }
 
-        //Prénom
-        if (!isset($_POST['prenom']) || iconv_strlen($_POST['prenom']) < 3 || iconv_strlen($_POST['prenom']) > 20) {
-            $erreur .= "<div class='affichageDanger'> Prénom : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre pseudo devra comporter au minimum trois caractère et 20 au maximum.</div>";
-        }
+        //Photo
 
-        //email
-        if (!isset($_POST['email']) || !filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-            $erreur .= "<div class='affichageDanger'> Email : Votre adresse semble ne pas respecter un format valide</div>";
-        }
+            //Gestion de l'image : modification et ajout de l'image
 
-        //Civilite
-        if (!isset($_POST['civilite']) || $_POST['civilite'] != 'f' && $_POST['civilite'] != 'm') {
-        $erreur .= "<div class='affichageDanger'>Erreur, vous devez cocher une des options pour la civilité</div>";
-        }
+            //Initialisation de la variable à vide
 
-        if($_GET['action']=='add'){
+            $photo_bdd='';
 
-            //mdp
-            if (!isset($_POST['mdp']) || strlen($_POST['mdp']) < 3 || strlen($_POST['mdp']) > 20) {
-                $erreur .= "<div class='affichageDanger'> Mot de passe : Il doit comporter minimum 8 caractères et maximum 20 </div>";
+            //En cas d'update de la photo, la valeur que prendra $photo_bdd
+
+            if($_GET['action'] == 'update'){
+                $photo_bdd = $_POST['photoActuelle'];
             }
 
+            
+            
+
+            //Si l'input pour uploader l'image a reçu un nom de fichier on executera le code suivant dans le bloc d'instruction
+            if(!empty($_FILES['photo']['name'])){
+
+                //Je donne un nouveau nom au fichier image. je concatène la réf du produit avec le nom du fichier image
+                $photo_nom = $_POST['cp'] . '_' . $_FILES['photo']['name'];
+
+                // En cas d'insertion, $photo_bdd va prendre la valeur de photo_nom, qui sera de type string (double quotes)
+                //Elle va servir dans les bindValues pour la modif ou l'insertion, voir ci-dessous
+                $photo_bdd = "$photo_nom";
+
+            
+
+                //chemin physique pour uploader l'image vers le projet (dans le dossier img du projet)
+                $photo_dossier = RACINE_SITE . "img/$photo_nom";
+
+                //fonction prédéfinie pour copier l'image dans le dossier physique img
+                //processus de programmation de copy, doit lui donner un nom de fichier temporaire (1 10e de scde) puis le verse avec son nom définitif dans le dossier img (valeur affectée à  $photo_dossier)
+                copy($_FILES['photo']['tmp_name'], $photo_dossier);
+            }
+
+            print_r($_POST['photoActuelle']). "<br>";
+            print_r($photo_bdd);
         
-
-            //Vérification du pseudo
-
-            $verifPseudo = $pdo->prepare("SELECT pseudo FROM membre WHERE pseudo = :pseudo");
-            $verifPseudo->bindValue(':pseudo', $_POST['pseudo'], PDO::PARAM_STR);
-            $verifPseudo->execute();
-
-            if ($verifPseudo->rowCount() == 1) {
-                $erreur .= "<div class='affichageDanger'> Ce pseudo est déjà utilisé, choisissez en un autre</div>";
+        //Pays
+        if (!isset($_POST['pays']) || $_POST['pays'] != 'France' && $_POST['pays'] != 'Angleterre' && $_POST['pays'] != 'Belgique' && $_POST['pays'] != 'Allemagne') {
+            $erreur .= "<div class='affichageDanger'>Pays : vous devez sélectionner une des options pour le pays</div>";
             }
 
-            //Cryptage du mdp
-
-
-            $_POST['mdp'] = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
-
+        //Ville
+        if (!isset($_POST['ville']) || $_POST['ville'] != 'Paris' && $_POST['ville'] != 'Lyon' && $_POST['ville'] != 'Marseille') {
+            $erreur .= "<div class='affichageDanger'>Ville : vous devez sélectionner une des options pour la ville </div>";
+            }
+        
+        //Adresse
+        if (!isset($_POST['adresse']) || !preg_match('#^[a-zA-Z0-9-_ .]{3,50}$#', $_POST['adresse'])) {
+            $erreur .= "<div class='affichageDanger'>Adresse : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre adresse devra comporter au minimum trois caractère et 50 au maximum</div>";
         }
+
+
+        //Code postal
+        if (!isset($_POST['cp']) || !preg_match('#^[0-9]{5}$#', $_POST['cp'])) {
+            $erreur .= "<div class='affichageDanger'>Code postal : Code postal incorrect</div>";
+        }
+    
+
+        //Capacité
+        if (!isset($_POST['capacite']) || !preg_match('#^[0-9- _.]{0,20}$#', $_POST['capacite'])) {
+            $erreur .= "<div class='affichageDanger'>Capacité : Pour ce champs, vous avez le droit d'utiliser tous les caractères numériques.</div>";
+        }
+
+        //Categorie
+        if (!isset($_POST['categorie']) || $_POST['categorie'] != 'reunion' && $_POST['categorie'] != 'bureau') {
+        $erreur .= "<div class='affichageDanger'>Catégorie : vous devez sélectionner une des options pour la catégorie</div>";
+        }
+
 
         //Requête préparée pour l'insertion en BDD
 
@@ -77,40 +115,53 @@ if(isset($_GET["action"])){
 
             if($_GET['action']=='update'){
 
-                $modifierUser = $pdo->prepare("UPDATE membre SET  id_membre = :id_membre, pseudo = :pseudo, nom = :nom, prenom = :prenom, email = :email, civilite = :civilite WHERE id_membre = :id_membre");
 
-                $modifierUser->bindValue(':id_membre', $_POST['id_membre'], PDO::PARAM_INT);
-                $modifierUser->bindValue(':pseudo', $_POST['pseudo'], PDO::PARAM_STR);
-            
-                $modifierUser->bindValue(':nom', $_POST['nom'], PDO::PARAM_STR);
-                $modifierUser->bindValue(':prenom', $_POST['prenom'], PDO::PARAM_STR);
-                $modifierUser->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
-                $modifierUser->bindValue(':civilite', $_POST['civilite'], PDO::PARAM_STR);
+                $modifieSalle = $pdo->prepare ("UPDATE salle SET  id_salle = :id_salle, titre = :titre, description = :description, photo = :photo, pays = :pays, ville = :ville, adresse = :adresse,  cp = :cp, capacite = :capacite, categorie = :categorie WHERE id_salle = :id_salle");
+
+                $modifieSalle->bindValue(':id_salle', $_POST['id_salle'], PDO::PARAM_INT);
+                $modifieSalle->bindValue(':titre', $_POST['titre'], PDO::PARAM_STR);
+                $modifieSalle->bindValue(':description', $_POST['description'], PDO::PARAM_STR);
+                $modifieSalle->bindValue(':photo', $photo_bdd, PDO::PARAM_STR);
+                $modifieSalle->bindValue(':pays', $_POST['pays'], PDO::PARAM_STR);
+                $modifieSalle->bindValue(':ville', $_POST['ville'], PDO::PARAM_STR);
+                $modifieSalle->bindValue(':adresse', $_POST['adresse'], PDO::PARAM_STR);
+                $modifieSalle->bindValue(':cp', $_POST['cp'], PDO::PARAM_INT);
+                $modifieSalle->bindValue(':capacite', $_POST['capacite'], PDO::PARAM_INT);
+                $modifieSalle->bindValue(':categorie', $_POST['categorie'], PDO::PARAM_STR);
     
-                $modifierUser->execute();
+                $modifieSalle->execute();
 
-                $queryUsers = $pdo->query("SELECT pseudo FROM membre WHERE id_membre ='$_GET[id_membre]' ");
 
-                $user = $queryUsers->fetch(PDO::FETCH_ASSOC);
+                $queryUsers = $pdo->query("SELECT titre, FROM salle WHERE id_salle ='$_GET[id_salle]' ");
+
+                $salle = $queryUsers->fetch(PDO::FETCH_ASSOC);
+
+                print_r($photo_nom);
+                print_r($photo_bdd);
+                echo $salle['titre'];
 
                 $validate .= '<div class="reussiteInscription">
-                <strong>Félicitations !</strong> Modification du user <strong>'. $user['pseudo'] .'</strong> réussie !>
+                <strong>Félicitations !</strong> Modification de la salle <strong>'. $salle['titre'] .'</strong> réussie
                 </div>';
                 
             }else{
 
-                $ajouterUser = $pdo->prepare("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite)");
+                $ajouterSalle = $pdo->prepare("INSERT INTO salle (titre, description, photo, pays, ville, adresse, cp, capacite, categorie) VALUES (:titre, :description, :photo, :pays, :ville, :adresse, :cp, :capacite, :categorie)");
+                
+                
+                $ajouterSalle->bindValue(':titre', $_POST['titre'], PDO::PARAM_STR);
+                $ajouterSalle->bindValue(':description', $_POST['description'], PDO::PARAM_STR);
+                $ajouterSalle->bindValue(':photo', $photo_bdd, PDO::PARAM_STR);
+                $ajouterSalle->bindValue(':pays', $_POST['pays'], PDO::PARAM_STR);
+                $ajouterSalle->bindValue(':ville', $_POST['ville'], PDO::PARAM_STR);
+                $ajouterSalle->bindValue(':adresse', $_POST['adresse'], PDO::PARAM_STR);
+                $ajouterSalle->bindValue(':cp', $_POST['cp'], PDO::PARAM_INT);
+                $ajouterSalle->bindValue(':capacite', $_POST['capacite'], PDO::PARAM_INT);
+                $ajouterSalle->bindValue(':categorie', $_POST['categorie'], PDO::PARAM_STR);
+    
+                $ajouterSalle->execute();
 
-                $ajouterUser->bindValue(':pseudo', $_POST['pseudo'], PDO::PARAM_STR);
-                $ajouterUser->bindValue(':mdp', $_POST['mdp'], PDO::PARAM_STR);
-                $ajouterUser->bindValue(':nom', $_POST['nom'], PDO::PARAM_STR);
-                $ajouterUser->bindValue(':prenom', $_POST['prenom'], PDO::PARAM_STR);
-                $ajouterUser->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
-                $ajouterUser->bindValue(':civilite', $_POST['civilite'], PDO::PARAM_STR);
-
-                $ajouterUser->execute();
-
-                $validate .="<div class ='reussiteInscription'>Félicitation ! Ajout du user réussie !</div>";
+                $validate .="<div class ='reussiteInscription'>Félicitation ! Ajout de la salle réussie !</div>";
             }
 
         }
@@ -122,29 +173,25 @@ if(isset($_GET["action"])){
     if($_GET['action']=='update'){
 
         $queryUsers = $pdo->query("SELECT * FROM salle WHERE id_salle ='$_GET[id_salle]' ");
-        $userActuel = $queryUsers->fetch(PDO::FETCH_ASSOC);
-    
-
-        $id_membre = (isset($userActuel['id_membre'])) ? $userActuel['id_membre'] : "";
-        $pseudo = (isset($userActuel['pseudo'])) ? $userActuel['pseudo'] : "";
-        $nom = (isset($userActuel['nom'])) ? $userActuel['nom'] : "";
-        $prenom = (isset($userActuel['prenom'])) ? $userActuel['prenom'] : "";
-        $email = (isset($userActuel['email'])) ? $userActuel['email'] : "";
-        $civilite = (isset($userActuel['civilite'])) ? $userActuel['civilite'] : "";
+        $salleActuelle = $queryUsers->fetch(PDO::FETCH_ASSOC);
 
     }
 
-    if(isset($GET['action']) || $_GET['action']=='add'){
-        $pseudo="";
-        $nom="";
-        $prenom="";
-        $email="";
-        $civilite="";
-    }
+        $id_membre = (isset($salleActuelle['id_membre'])) ? $salleActuelle['id_membre'] : "";
+        $titre = (isset($salleActuelle['titre'])) ? $salleActuelle['titre'] : "";
+        $description = (isset($salleActuelle['description'])) ? $salleActuelle['description'] : "";
+        $photo = (isset($salleActuelle['photo'])) ? $salleActuelle['photo'] : "";
+        $pays = (isset($salleActuelle['pays'])) ? $salleActuelle['pays'] : "";
+        $ville = (isset($salleActuelle['ville'])) ? $salleActuelle['ville'] : "";
+        $adresse = (isset($salleActuelle['adresse'])) ? $salleActuelle['adresse'] : "";
+        $cp = (isset($salleActuelle['cp'])) ? $salleActuelle['cp'] : "";
+        $capacite = (isset($salleActuelle['capacite'])) ? $salleActuelle['capacite'] : "";
+        $categorie = (isset($salleActuelle['categorie'])) ? $salleActuelle['categorie'] : "";
+
+
 
     if($_GET['action'] == 'delete'){
-
-        $pdo->query("DELETE FROM membre WHERE id_membre = '$_GET[id_membre]'");    
+        $pdo->query("DELETE FROM salle WHERE id_salle = '$_GET[id_salle]'");    
     }
 
 }
@@ -180,23 +227,12 @@ require_once('includeAdmin/headerAdmin.php');
                     <div class="table-container">
                         <table>
                             <?php $afficheTousUsers = $pdo->query("SELECT * FROM salle ORDER BY titre") ?>
-
                             <thead>
                                 <tr>
                                     <?php for ($i = 0; $i < $afficheTousUsers->columnCount(); $i++) {
-
                                         $colonne = $afficheTousUsers->getColumnMeta($i);
-
                                     ?>
-
-                                        <?php if ($colonne['name'] != 'mdp') : ?>
                                             <th><?= $colonne['name'] ?></th>
-                                        <?php endif; ?>
-
-                                        <?php
-
-                                        ?>
-
                                     <?php } ?>
                                     <th colspan="2">Actions</th>
                                 </tr>
@@ -205,14 +241,15 @@ require_once('includeAdmin/headerAdmin.php');
                                 <?php while ($tousUsers = $afficheTousUsers->fetch(PDO::FETCH_ASSOC)) : ?>
                                     <tr>
                                         <?php foreach ($tousUsers as $key => $value) : ?>
-                                            <?php if ($key != 'mdp') : ?>
-                                                <td><?= $value ?> </td>
+                                            <?php if ($key == 'photo') : ?>
+                                                
+                                                <td><img src="<?= URL . "img/" . $value ?>" alt="" width="50"></td>
+                                            <?php else:?>
+                                                <td><?= $value ?></td>                                                
                                             <?php endif; ?>
                                         <?php endforeach; ?>
                                         <td><a href='?action=update&id_salle=<?= $tousUsers['id_salle'] ?>'><i class="bi bi-pen-fill"></i></a></td>
-
                                         <td><a href="?action=delete&id_salle=<?= $tousUsers['id_salle'] ?>"><i class="bi bi-trash-fill" style="font-size: 1.5rem;"></i></a></td>
-
                                     </tr>
                                 <?php endwhile;?>
                             </tbody>
@@ -249,21 +286,7 @@ require_once('includeAdmin/headerAdmin.php');
 
                             <h2>Formulaire <?= ($_GET['action'] == "add") ? "d'ajout" : "de modification" ?> des salles </h2>
 
-                            <form action="" class="inscriptionForm form" method="POST">
-
-                                <!-- 
-                                    id_salle (hidden)
-                                    Titre
-                                    Description
-                                    Photo
-                                    Capacité
-                                    Catégorie
-                                    pays
-                                    Ville
-                                    Adresse
-                                    Code Postale
-
-                                -->
+                            <form action="" class="inscriptionForm form" method="POST" enctype="multipart/form-data">
                                 
                                 <!-- id_salle -->
 
@@ -277,27 +300,91 @@ require_once('includeAdmin/headerAdmin.php');
                                     <label class="" for="titre">
                                     Titre
                                     </label>
-                                    <input class="" type="text" value="<?= $titre ?>" name="titre" id="titre" placeholder="Description de la salle">
+                                    <input class="" type="text" value="<?= $titre ?>" name="titre" id="titre" placeholder="Entrez votre titre">
                                 </div>
 
-                                <!-- description -->
+                                <!-- Description-->
 
                                 <div class="champInput">
                                     <label class="" for="description">
                                     Description
                                     </label>
-                                    <textarea class="" type="text" name="description" id="description" placeholder="Description de la salle"><?= $description?></textarea>
+                                    <textarea class="" type="text" name="description" id="description" placeholder="Entrez votre description"><?= $description?></textarea>
                                 </div>
 
+
                                 <!-- Photo -->
+
+                                <div class="champInput">
+                                    <label class="" for="photo">
+                                    Photo
+                                    </label>
+                                    <input class="" type="file" name="photo" id="photo" placeholder="Photo">
+                                    <?php if(!empty($photo)): ?>
+                                        <div class="">
+                                            <p>Vous pouvez changer d'image
+                                                <img src="<?= URL . 'img/' . $photo ?> " width="50px">
+                                            </p>
+                                        </div>
+                                    <?php endif; ?>
+
+                                    <!-- Input de type hidden qi va permettre d'envoyer une nouvelle photo/valeur si on veut la modifier -->
+
+                                    <input type="hidden" name='photoActuelle' value='<?=$photo?>'>
+                                    
+                                </div>
+
+                                <!-- Pays -->
+
+                                <div class="champInput">
+                                    <label for="pays">Sélectionnez un pays</label>
+                                    <select name="pays" id="pays">
+                                        <option value="">--Choisissez une option--</option>
+                                        <option value="France"<?=($pays=='France') ? 'selected': ''?>>France</option>
+                                        <option value="Angleterre"<?=($pays=='Angleterre') ? 'selected': ''?>>Angleterre</option>
+                                        <option value="Belgique"<?=($pays=='Belgique') ? 'selected': ''?>>Belgique</option>
+                                        <option value="Allemagne"<?=($pays=='Allemagne') ? 'selected': ''?>>Allemagne</option>
+                                    </select>
+                                </div>
+
+                                <!-- Ville -->
+
+                                <div class="champInput">
+                                    <label for="ville">Sélectionnez une ville</label>
+                                    <select name="ville" id="ville">
+                                        <option value="">--Choisissez une option--</option>
+                                        <option value="Paris"<?=($ville=='Paris') ? 'selected': ''?>>Paris</option>
+                                        <option value="Lyon"<?=($ville=='Lyon') ? 'selected': ''?>>Lyon</option>
+                                        <option value="Marseille"<?=($ville=='Marseille') ? 'selected': ''?>>Marseille</option>
+                                    </select>
+                                </div>
+
+                                <!-- Adresse -->
+
+                                <div class="champInput">
+                                <label class="" for="adresse">
+                                        Adresse
+                                    </label>
+                                    <input class="" type="text" name="adresse" id="adresse" value="<?= $adresse?>" placeholder="adresse">
+                                </div>
+
+                                <!-- Code postal -->
+
+                                <div class="champInput">
+                                    <label class="" for="cp">
+                                        Code postal
+                                    </label>
+                                    <input class="" type="text" name="cp" id="cp" value="<?=$cp?>" placeholder="Entrez votre code postal">
+                                </div>
+
 
                                 <!-- Capacité -->
 
                                 <div class="champInput">
                                     <label class="" for="capacite">
-                                        capacite
+                                        Capacité de la salle
                                     </label>
-                                    <input class="" type="text" name="capacite" id="capacite" value="<?= $stock?>" placeholder="capacite">
+                                    <input class="" type="text" name="capacite" id="capacite" value="<?= $capacite?>" placeholder="capacite">
                                 </div>
 
                                 <!-- Catégorie -->
@@ -313,72 +400,9 @@ require_once('includeAdmin/headerAdmin.php');
                                     </select>
                                 </div>
 
-                                <!-- Pays -->
 
                                 <div class="champInput">
-                                    <label for="pays">Sélectionnez un pays</label>
-                                    <select name="pays" id="pays">
-                                        <option value="">--Choississez une option--</option>
-                                        <option value="france"<?=($pays=='france') ? 'selected': ''?>>France</option>
-                                        <option value="angleterre"<?=($pays=='angleterre') ? 'selected': ''?>>Angleterre</option>
-                                        <option value="belgique"<?=($pays=='Belgique') ? 'selected': ''?>>Belgique</option>
-                                        <option value="allemagne"<?=($pays=='allemagne') ? 'selected': ''?>>Allemagne</option>
-                                    </select>
-                                </div>
-
-                                <!-- Ville -->
-
-                                <div class="champInput">
-                                    <label for="ville">Sélectionnez un pays</label>
-                                    <select name="ville" id="ville">
-                                        <option value="">--Choississez une option--</option>
-                                        <option value="paris"<?=($pays=='paris') ? 'selected': ''?>>Paris</option>
-                                        <option value="lyon"<?=($pays=='lyon') ? 'selected': ''?>>Lyon</option>
-                                        <option value="marseille"<?=($pays=='marseille') ? 'selected': ''?>>Marseille</option>
-                                    </select>
-                                </div>
-
-                                <!-- Adresse -->
-
-                                
-                                <!-- Code postal -->
-
-
-
-
-                                <div class="champInput">
-                                    <label class="" for="nom">
-                                    Nom
-                                    </label>
-                                    <input class="" type="text" value="<?= $nom ?>" name="nom" id="nom" placeholder="Votre nom" required>
-                                </div>
-                                <div class="champInput">
-                                    <label class="" for="prenom">
-                                    Prénom
-                                    </label>
-                                    <input class="" type="text" name="prenom" id="prenom" value="<?= $prenom ?>" placeholder="Votre prénom" required>
-                                </div>
-                                <div class="champInput">
-                                    <label class="" for="email">
-                                    email
-                                    </label>
-                                    <input class="" type="email" name="email" id="email" placeholder="Votre email" value="<?= $email ?>">
-                                </div>
-                                <div class="">
-                                    <p>
-                                        <div class="">Civilité</div>
-                                    </p>
-                                    <div class="">
-                                        <input class="" type="radio" name="civilite" id="civilite1" value="f" <?= ($civilite == "f") ? "checked" : "" ?>>
-                                        <label class="" for="civilite1">f</label>
-                                    </div>
-                                    <div class="">
-                                        <input class="" type="radio" name="civilite" id="civilite2" value="m" <?= ($civilite == "m") ? "checked" : "" ?>>
-                                        <label class="" for="civilite2">m</label>
-                                    </div>
-                                </div>
-                                <div class="champInput">
-                                    <button name="buttonMembres" class="buttonFormulaire">Valider</button>
+                                    <button name="buttonSalles" class="buttonFormulaire">Valider</button>
                                 </div>
                             </form>
                         <?php endif; ?>

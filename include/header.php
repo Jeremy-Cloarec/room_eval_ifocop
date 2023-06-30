@@ -1,7 +1,9 @@
 <?php 
 
-require_once('include/init.php');
-require_once('include/fonctions.php');
+require_once('init.php');
+require_once('fonctions.php');
+
+
 ?>
 
 <!DOCTYPE html>
@@ -20,11 +22,16 @@ require_once('include/fonctions.php');
             </div>
             <ul class="ulMenu">
                 <li class="deroulant">
-                    <a href="#" class="espacemembre">Espace membre</a>
+                    <a href="#" class="espacemembre">
+                        <?= internauteConnecte() ? $_SESSION["user"]["pseudo"] : "Espace membre";?>
+                    </a>
                     <ul class="sous">
                         <li><a href="<?php URL ?>inscription.php">Inscription</a></li>
                         <li><a href="<?php URL ?>connexion.php">Connexion</a></li>
                         <li><a href="<?php URL ?>profil.php">Profil</a></li>
+                        <?php if(internauteConnecteAdmin()):?>
+                            <li><a href="<?php URL ?>admin/index.php">Votre espace</a></li>
+                        <?php endif;?>
                     </ul>
                 </li>
             </ul>

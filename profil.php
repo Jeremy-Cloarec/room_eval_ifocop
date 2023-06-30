@@ -10,6 +10,7 @@ if(!internauteConnecte()){
     exit();
 }
 
+
 // Message de félicitation
 if(isset($_GET['action']) && $_GET['action'] == 'validate'){
     $validate .= '<div class="reussiteInscription"> Félicitations </strong>' . $_SESSION['user']['pseudo'] . ' !'. '</strong> Vous êtes connecté !</div>';

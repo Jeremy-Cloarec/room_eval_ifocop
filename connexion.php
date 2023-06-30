@@ -58,26 +58,6 @@ if(isset($_POST['buttonConnexion'])){
 
                     echo $key . ': ' . $_SESSION['user'][$key] . '<br>';
 
-                    //Vérifier  état de la connexion
-
-                    // if (internauteConnecte()){
-                    //     echo 'connecté <br>';
-                    // }else {
-                    //     echo 'pas connecté <br>';
-                    // }
-
-                    
-
-                    // if (isset($_SESSION['user']['statut']) && $_SESSION['user']['statut'] == 1) {
-                    //     echo 'Admin<br>';
-                    // } else {
-                    //     echo 'Pas admin<br>';
-                    // }
-
-
-
-
-
 
 
             //         //On redirige ensuite l'utilisateur vers : 
@@ -85,13 +65,16 @@ if(isset($_POST['buttonConnexion'])){
             //         //Page admin s'il est admin
 
                     if (internauteConnecteAdmin()){
+                        $validate .='Yes';
                         header('location:' . URL . 'admin/index.php?action=validate');
+                        break;
                     } 
 
             //         //Page panier s'il vient du panier
                     
                     elseif (isset($_GET['action']) && $_GET['action'] == 'acheter') {
-                        header('location' . URL . 'panier.php');
+                        header('location:' . URL . 'panier.php');
+                        break;
                     }
 
             //         //Page profil
