@@ -132,13 +132,9 @@ if(isset($_GET["action"])){
                 $modifieSalle->execute();
 
 
-                $queryUsers = $pdo->query("SELECT titre, FROM salle WHERE id_salle ='$_GET[id_salle]' ");
+                $queryUsers = $pdo->query("SELECT titre FROM salle WHERE id_salle ='$_GET[id_salle]' ");
 
                 $salle = $queryUsers->fetch(PDO::FETCH_ASSOC);
-
-                print_r($photo_nom);
-                print_r($photo_bdd);
-                echo $salle['titre'];
 
                 $validate .= '<div class="reussiteInscription">
                 <strong>Félicitations !</strong> Modification de la salle <strong>'. $salle['titre'] .'</strong> réussie
@@ -177,7 +173,8 @@ if(isset($_GET["action"])){
 
     }
 
-        $id_membre = (isset($salleActuelle['id_membre'])) ? $salleActuelle['id_membre'] : "";
+
+        $id_salle = (isset($salleActuelle['id_salle'])) ? $salleActuelle['id_salle'] : "";
         $titre = (isset($salleActuelle['titre'])) ? $salleActuelle['titre'] : "";
         $description = (isset($salleActuelle['description'])) ? $salleActuelle['description'] : "";
         $photo = (isset($salleActuelle['photo'])) ? $salleActuelle['photo'] : "";
@@ -323,7 +320,7 @@ require_once('includeAdmin/headerAdmin.php');
                                     <?php if(!empty($photo)): ?>
                                         <div class="">
                                             <p>Vous pouvez changer d'image
-                                                <img src="<?= URL . 'img/' . $photo ?> " width="50px">
+                                                <img src="<?= URL . 'img/' . $photo ?> " width="50px" alt="Miniature de <?= $photo ?>">
                                             </p>
                                         </div>
                                     <?php endif; ?>
