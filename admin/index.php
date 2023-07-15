@@ -4,7 +4,7 @@ require_once('../include/init.php');
 require_once('../include/fonctions.php');
 
 
-$title= "Admin de " . $_SESSION['user']['pseudo'];
+
 
 if(!internauteConnecteAdmin()){
     header('location:' . URL . 'connexion.php');
@@ -17,8 +17,13 @@ if(!internauteConnecteAdmin()){
 
 
 <?php
+$title= "Admin de " . $_SESSION['user']['pseudo'];
 require_once('includeAdmin/headerAdmin.php');
+
+
 ?>
+
+
 
     <div class="globalContainer">
 

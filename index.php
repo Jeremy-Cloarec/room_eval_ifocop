@@ -1,10 +1,14 @@
 <?php
 require_once('include/fonctions.php');
 require_once('include/init.php');
+
+$title= "Accueil";
 ?>
 
 
 <?php require_once('include/header.php');?>
+
+
 
 
     <div class="globalContainer">
