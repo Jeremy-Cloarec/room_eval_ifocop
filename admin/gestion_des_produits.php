@@ -11,6 +11,19 @@ if(!internauteConnecteAdmin()){
     exit();
 }
 
+if(isset($_GET["action"])){
+    if($_POST && isset($_POST["buttonGestionProduit"])){
+        
+        //Titre
+        if (!isset($_POST['titre']) || iconv_strlen($_POST['titre']) < 3 || iconv_strlen($_POST['titre']) > 30) {
+            $erreur .= "<div class='affichageDanger'> Titre : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre titre devra comporter au minimum trois caractère et 30 au maximum.</div>";
+        }
+
+
+    }
+
+}
+
 ?>
 
 
@@ -36,7 +49,7 @@ require_once('includeAdmin/headerAdmin.php');
                     
                     <!-- Tableaux des membres -->
 
-                    <h2>Nombre de salles en base de données : <?= $queryUsers->rowCount() ?></h2>
+                    <h2>Nombre de produits en base de données : <?= $queryUsers->rowCount() ?></h2>
 
 
                     <div class="table-container">
@@ -110,7 +123,7 @@ require_once('includeAdmin/headerAdmin.php');
                                     <input class="" type="hidden" name="id_salle" value="<?=$id_salle?>">
                                 </div>
 
-                                <!-- Titre -->
+                            
                                 <!-- id_salle -->
 
                                 <div class="champInput">
@@ -126,106 +139,51 @@ require_once('includeAdmin/headerAdmin.php');
                                     <input class="" type="text" value="<?= $titre ?>" name="titre" id="titre" placeholder="Entrez votre titre">
                                 </div>
 
-                                <!-- Description-->
+                                <!-- Date arrivée-->
 
                                 <div class="champInput">
-                                    <label class="" for="description">
-                                    Description
+                                    <label class="" for="dateArrivee">
+                                    Date d'arrivée
                                     </label>
-                                    <textarea class="" type="text" name="description" id="description" placeholder="Entrez votre description"><?= $description?></textarea>
+                                    <input type="datetime-local" id="dateArrivee" name="dateArrivee" value="<?=$dateArrivee ?>"
+                                    min="2018-06-07T00:00" max="2018-06-14T00:00">
+                                </div>
+
+                                <!-- Date depart-->
+
+                                <div class="champInput">
+                                    <label class="" for="dateDepart">
+                                    Date de départ
+                                    </label>
+                                    <input type="datetime-local" id="dateDepart" name="dateDepart" value="<?=$dateDepart ?>"
+                                    >
                                 </div>
 
 
-                                <!-- Photo -->
+
+                                <!-- Etat -->
 
                                 <div class="champInput">
-                                    <label class="" for="photo">
-                                    Photo
-                                    </label>
-                                    <input class="" type="file" name="photo" id="photo" placeholder="Photo">
-                                    <?php if(!empty($photo)): ?>
-                                        <div class="">
-                                            <p>Vous pouvez changer d'image
-                                                <img src="<?= URL . 'img/' . $photo ?> " width="50px" alt="Miniature de <?= $photo ?>">
-                                            </p>
-                                        </div>
-                                    <?php endif; ?>
-
-                                    <!-- Input de type hidden qi va permettre d'envoyer une nouvelle photo/valeur si on veut la modifier -->
-
-                                    <input type="hidden" name='photoActuelle' value='<?=$photo?>'>
-                                    
-                                </div>
-
-                                <!-- Pays -->
-
-                                <div class="champInput">
-                                    <label for="pays">Sélectionnez un pays</label>
-                                    <select name="pays" id="pays">
-                                        <option value="">--Choisissez une option--</option>
-                                        <option value="France"<?=($pays=='France') ? 'selected': ''?>>France</option>
-                                        <option value="Angleterre"<?=($pays=='Angleterre') ? 'selected': ''?>>Angleterre</option>
-                                        <option value="Belgique"<?=($pays=='Belgique') ? 'selected': ''?>>Belgique</option>
-                                        <option value="Allemagne"<?=($pays=='Allemagne') ? 'selected': ''?>>Allemagne</option>
+                                    <label for="etat">Choississez un état</label>
+                                    <select name="etat" id="etat">
+                                        <option value="">--Choisissez un état--</option>
+                                        <option value="Libre"<?=($pays=='Libre') ? 'selected': ''?>>libre</option>
                                     </select>
                                 </div>
 
-                                <!-- Ville -->
+                                
+
+                                <!-- Prix-->
 
                                 <div class="champInput">
-                                    <label for="ville">Sélectionnez une ville</label>
-                                    <select name="ville" id="ville">
-                                        <option value="">--Choisissez une option--</option>
-                                        <option value="Paris"<?=($ville=='Paris') ? 'selected': ''?>>Paris</option>
-                                        <option value="Lyon"<?=($ville=='Lyon') ? 'selected': ''?>>Lyon</option>
-                                        <option value="Marseille"<?=($ville=='Marseille') ? 'selected': ''?>>Marseille</option>
-                                    </select>
-                                </div>
-
-                                <!-- Adresse -->
-
-                                <div class="champInput">
-                                <label class="" for="adresse">
-                                        Adresse
-                                    </label>
-                                    <input class="" type="text" name="adresse" id="adresse" value="<?= $adresse?>" placeholder="adresse">
-                                </div>
-
-                                <!-- Code postal -->
-
-                                <div class="champInput">
-                                    <label class="" for="cp">
-                                        Code postal
-                                    </label>
-                                    <input class="" type="text" name="cp" id="cp" value="<?=$cp?>" placeholder="Entrez votre code postal">
-                                </div>
-
-
-                                <!-- Capacité -->
-
-                                <div class="champInput">
-                                    <label class="" for="capacite">
+                                    <label class="" for="prix">
                                         Capacité de la salle
                                     </label>
-                                    <input class="" type="text" name="capacite" id="capacite" value="<?= $capacite?>" placeholder="capacite">
+                                    <input class="" type="text" name="prix" id="prix" value="<?= $prix?>" placeholder="prix">
                                 </div>
 
-                                <!-- Catégorie -->
-
                                 <div class="champInput">
-
-                                    <label for="categorie">Sélectionnez une catégorie</label>
-
-                                    <select name="categorie" id="categorie">
-                                        <option value="">--Choississez une option--</option>
-                                        <option value="reunion"<?=($categorie=='reunion') ? 'selected': ''?>>Réunion</option>
-                                        <option value="bureau"<?=($categorie=='bureau') ? 'selected': ''?>>Bureau</option>
-                                    </select>
-                                </div>
-
-
-                                <div class="champInput">
-                                    <button name="buttonSalles" class="buttonFormulaire">Valider</button>
+                                    <button name="buttonGestionProduit" class="buttonFormulaire">Valider</button>
                                 </div>
                             </form>
                         <?php endif; ?>
