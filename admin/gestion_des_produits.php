@@ -12,6 +12,7 @@ if(!internauteConnecteAdmin()){
 }
 
 if(isset($_GET["action"])){
+
     if($_POST && isset($_POST["buttonGestionProduit"])){
         
         //Titre
@@ -19,9 +20,43 @@ if(isset($_GET["action"])){
             $erreur .= "<div class='affichageDanger'> Titre : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre titre devra comporter au minimum trois caractère et 30 au maximum.</div>";
         }
 
+        //Date de Départ
+        if (!isset($_POST['dateDepart'])){
+            $erreur .= "<div class='affichageDanger'> Date de départ : vous devez sélectionner une date de départ</div>";
+        }
 
+        //Date d'arrivée
+        if (!isset($_POST['dateArrivee'])){
+            $erreur .= "<div class='affichageDanger'> Date d'arrivée : vous devez sélectionner une date d'arivée</div>";
+        }
+
+        //Prix
+        if(!isset($_POST['prix']) || !preg_match('#^[0-9]{1,5}$#',$_POST['prix']) ){
+            $erreur .= "<div class='affichageDanger'> Etat : Vous devez sélectionner un état</div>";
+        }
+
+        //Etat
+        if (!isset($_POST['etat']) || $_POST['etat'] != 'Libre' && $_POST['etat'] != 'Reservé') {
+            $erreur .= "<div class='affichageDanger'> Prix : Le prix ne doit pas être vide et comporter seulement des nombres</div>";
+        }
+
+        if(empty($erreur)){
+
+                $updateProduit= $pdo->prepare("UPDATE produit SET id_produit = :id_produit, id_salle = :id_salle, date_depart = :date_depart, date_arrivee = :date_arrivee, prix = :prix, etat = :etat WHERE id_produit = :id_produit");
+
+                $updateProduit->bindValue(':id_produit', $_POST['id_produit'], PDO::PARAM_INT);
+                $updatProduit->bindValue(':id_salle', $_POST['id_salle'], PDO::PARAM_INT);
+                $updateProduit->bindValue('date_depart', $_POST['date_depart'], PDO::PARAM_STR);
+                $updateProduit->bindValue('date_arrivee', $_POST['date_arrivee'], PDO::PARAM_STR);
+                $updateProduit->bindValue('prix', $_POST['prix'], PDO::PARAM_STR);
+                $updateProduit->bindValue('etat', $_POST['etat'], PDO::PARAM_STR);
+
+                $updateCommande->execute();
+
+        }
     }
 
+    $id_produit = (isset($commandeActuelle['id_commande'])) ? $commandeActuelle['id_commande'] : '';
 }
 
 ?>
@@ -111,7 +146,7 @@ require_once('includeAdmin/headerAdmin.php');
                     <div class="inscription">
 
 
-                        <?php if(isset($_GET['action'])): ?>
+                        <?php if(($_GET['action'])): ?>
 
                             <h2>Formulaire <?= ($_GET['action'] == "add") ? "d'ajout" : "de modification" ?> des salles </h2>
 
@@ -168,6 +203,7 @@ require_once('includeAdmin/headerAdmin.php');
                                     <select name="etat" id="etat">
                                         <option value="">--Choisissez un état--</option>
                                         <option value="Libre"<?=($pays=='Libre') ? 'selected': ''?>>libre</option>
+                                        <option value="Libre"<?=($pays=='Reservé') ? 'selected': ''?>>Reservé</option>
                                     </select>
                                 </div>
 
@@ -177,7 +213,7 @@ require_once('includeAdmin/headerAdmin.php');
 
                                 <div class="champInput">
                                     <label class="" for="prix">
-                                        Capacité de la salle
+                                        Prx
                                     </label>
                                     <input class="" type="text" name="prix" id="prix" value="<?= $prix?>" placeholder="prix">
                                 </div>

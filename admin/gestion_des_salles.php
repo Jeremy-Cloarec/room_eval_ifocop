@@ -73,8 +73,8 @@ if(isset($_GET["action"])){
                 copy($_FILES['photo']['tmp_name'], $photo_dossier);
             }
 
-            print_r($_POST['photoActuelle']). "<br>";
-            print_r($photo_bdd);
+            // print_r($_POST['photoActuelle']). "<br>";
+            // print_r($photo_bdd);
         
         //Pays
         if (!isset($_POST['pays']) || $_POST['pays'] != 'France' && $_POST['pays'] != 'Angleterre' && $_POST['pays'] != 'Belgique' && $_POST['pays'] != 'Allemagne') {
