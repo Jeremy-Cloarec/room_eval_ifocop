@@ -8,7 +8,7 @@ $title= "Gestion des salles";
 
 
 if(!internauteConnecteAdmin()){
-    header('location:' . URL . 'connexion.php');
+    header('location:' . URL . '/connexion.php');
     exit();
 }
 
@@ -67,6 +67,8 @@ if(isset($_GET["action"])){
 
                 //chemin physique pour uploader l'image vers le projet (dans le dossier img du projet)
                 $photo_dossier = RACINE_SITE . "img/$photo_nom";
+
+                
 
                 //fonction prédéfinie pour copier l'image dans le dossier physique img
                 //processus de programmation de copy, doit lui donner un nom de fichier temporaire (1 10e de scde) puis le verse avec son nom définitif dans le dossier img (valeur affectée à  $photo_dossier)
@@ -196,9 +198,6 @@ if(isset($_GET["action"])){
 ?>
 
 
-
-
-
 <?php
 require_once('includeAdmin/headerAdmin.php');
 ?>
@@ -240,7 +239,7 @@ require_once('includeAdmin/headerAdmin.php');
                                         <?php foreach ($tousUsers as $key => $value) : ?>
                                             <?php if ($key == 'photo') : ?>
                                                 
-                                                <td><img src="<?= URL . "img/" . $value ?>" alt="" width="50"></td>
+                                                <td><img src="<?= URL . "/img/" . $value ?>" alt="" width="50"></td>
                                             <?php else:?>
                                                 <td><?= $value ?></td>                                                
                                             <?php endif; ?>
@@ -320,7 +319,7 @@ require_once('includeAdmin/headerAdmin.php');
                                     <?php if(!empty($photo)): ?>
                                         <div class="">
                                             <p>Vous pouvez changer d'image
-                                                <img src="<?= URL . 'img/' . $photo ?> " width="50px" alt="Miniature de <?= $photo ?>">
+                                                <img src="<?= URL . '/img/' . $photo ?> " width="50px" alt="Miniature de <?= $photo ?>">
                                             </p>
                                         </div>
                                     <?php endif; ?>
