@@ -239,7 +239,7 @@ require_once('includeAdmin/headerAdmin.php');
                                         <?php foreach ($tousUsers as $key => $value) : ?>
                                             <?php if ($key == 'photo') : ?>
                                                 
-                                                <td><img src="<?= URL . "/img/" . $value ?>" alt="" width="50"></td>
+                                                <td><img src="<?= URL . "img/" . $value ?>" alt="" width="50"></td>
                                             <?php else:?>
                                                 <td><?= $value ?></td>                                                
                                             <?php endif; ?>
@@ -319,7 +319,7 @@ require_once('includeAdmin/headerAdmin.php');
                                     <?php if(!empty($photo)): ?>
                                         <div class="">
                                             <p>Vous pouvez changer d'image
-                                                <img src="<?= URL . '/img/' . $photo ?> " width="50px" alt="Miniature de <?= $photo ?>">
+                                                <img src="<?= URL . 'img/' . $photo ?> " width="50px" alt="Miniature de <?= $photo ?>">
                                             </p>
                                         </div>
                                     <?php endif; ?>
