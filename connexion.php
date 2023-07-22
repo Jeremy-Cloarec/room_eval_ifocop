@@ -109,39 +109,43 @@ if(isset($_POST['buttonConnexion'])){
 
 ?>
 
-    <div class="globalContainer">
+    
 
         <?php
         $title = "Connexion";
         require_once('include/header.php');
         ?>
 
-        <main>
-            <h1>Connexion</h1>
+        <div class="globalContainer">
 
-            <?=$validate;?>
-            <?=$erreur;?>
+            <main>
+                <h1>Connexion</h1>
 
-            <form action="" class="connexionForm form" method="POST">
-                    <!-- pseudo, mdp -->
-                    <div class="champInput">
-                        <label class="" for="pseudo">
-                        Pseudo
-                        </label>
-                        <input class="" type="text" name="pseudo" id="pseudo" placeholder="Votre pseudo" max-length="20" pattern="[a-zA-Z0-9-_.]{3,20}" required>
-                    </div>
-                    <div class="champInput">
-                        <label class="" for="mdp">
-                        Mot de passe
-                        </label>
-                        <input class="" type="password" name="mdp" id="mdp" placeholder="Votre mot de passe" max-length="20" pattern="[a-zA-Z0-9-_.]{3,20}" required>
-                    </div>
-                    <div class="champInput">
-                        <button name="buttonConnexion" class="buttonConnexion">Valider</button>
-                    </div>
-            </form>
+                <?=$validate;?>
+                <?=$erreur;?>
 
-        </main>
+            
+
+                <form action="" class="connexionForm form" method="POST">
+                        <!-- pseudo, mdp -->
+                        <div class="champInput">
+                            <label class="" for="pseudo">
+                            Pseudo
+                            </label>
+                            <input class="" type="text" name="pseudo" id="pseudo" placeholder="Votre pseudo" max-length="20" pattern="[a-zA-Z0-9-_.]{3,20}" required>
+                        </div>
+                        <div class="champInput">
+                            <label class="" for="mdp">
+                            Mot de passe
+                            </label>
+                            <input class="" type="password" name="mdp" id="mdp" placeholder="Votre mot de passe" max-length="20" pattern="[a-zA-Z0-9-_.]{3,20}" required>
+                        </div>
+                        <div class="champInput">
+                            <button name="buttonConnexion" class="buttonConnexion">Valider</button>
+                        </div>
+                </form>
+
+            </main>
         
 
 

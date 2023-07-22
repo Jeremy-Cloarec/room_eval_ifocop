@@ -1,0 +1,57 @@
+
+
+.containerProduitFiltre{
+    display: flex;
+    gap: 24px;
+}
+
+.containerFiltre{
+    background-color: pink;
+    flex: 1;
+    min-height: 180px;
+}
+
+.containerProduit{
+    background-color: rgb(169, 221, 173);
+    flex: 3;
+}
+
+.gridProduit{
+    display: grid;
+    grid-template-columns: repeat(3, minmax(170px, 300px));
+    gap : 24px;
+    background-color: azure;
+    width: fit-content;
+    margin: auto;
+}
+
+.containerCardSAlle{
+
+    display : flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.containerCardSAlle h3{
+    padding: 0;
+}
+
+.containerImage img{
+    width: 100%;
+    object-fit:contain;
+}
+
+
+.titrePrix{
+    display: flex;
+    justify-content: space-between;
+}
+
+@media(max-width : 1200px){
+    .containerProduitFiltre{
+        flex-direction: column;
+    }
+
+}
+
+

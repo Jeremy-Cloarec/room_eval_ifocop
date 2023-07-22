@@ -40,14 +40,10 @@ if(!internauteConnecteAdmin()){
                         
                         <!-- On fait une jointure pour appeler les colonnes titre et photo de la table salle -->
                             
-                        <?php $afficheGestionCommande = $pdo->query("SELECT commande.id_commande, membre.id_membre, produit.id_produit, produit.prix, DATE_FORMAT(commande.date_enregistrement, '%d/%m/%Y à %Hh %imn %ss')AS date_enregistrement
-                        FROM commande, membre, produit 
-                        WHERE commande.id_membre = membre.id_membre 
-                        AND commande.id_produit = produit.id_produit 
-                        ORDER BY commande.id_commande");
+                        <?php $afficheGestionCommande = $pdo->query("SELECT id_commande, id_membre, id_produit, prix, DATE_FORMAT(date_enregistrement, '%d/%m/%Y à %Hh %imn %ss')AS date_enregistrement
+                        FROM commande
+                        ORDER BY id_commande");
                         ?>
-
-
 
 
                             <thead>
@@ -56,23 +52,21 @@ if(!internauteConnecteAdmin()){
                                         $colonne = $afficheGestionCommande->getColumnMeta($i);?>
                                             <th><?= $colonne['name'] ?></th>
                                     <?php } ?>
-                                    <th colspan="2">Actions</th>
                                 </tr>
                             </thead>
 
                             <tbody>
-                                <?php while ($tousUsers = $afficheGestionCommande->fetch(PDO::FETCH_ASSOC)) : ?>
-                                    <tr>
-                                        <?php foreach ($tousUsers as $value) : ?>
-                                            <td><?= $value ?></td>
-                                        <?php endforeach; ?>
-                                    </tr>
-                                <?php endwhile; ?>
+                                    <?php while ($commande = $afficheGestionCommande->fetch(PDO::FETCH_ASSOC)) : ?>
+                                        <tr>
+                                            <?php foreach ($commande as $value) : ?>
+                                                <td><?= $value ?></td>
+                                            <?php endforeach; ?>
+                                        </tr>
+                                    <?php endwhile;?>
                             </tbody>
 
                         </table>
                     </div>
-
                 </main>
 
             </div>

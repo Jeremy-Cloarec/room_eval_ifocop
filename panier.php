@@ -5,13 +5,15 @@ require_once('include/init.php');
 
 
 
+    
+
+
+
+<?php
+require_once('include/header.php');
+?>
+
     <div class="globalContainer">
-
-
-
-        <?php
-        require_once('include/header.php');
-        ?>
 
         <main>
             <h1>Panier</h1>

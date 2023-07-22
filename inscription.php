@@ -86,12 +86,12 @@ require_once('include/init.php');
 
 
 
+    
+
+    <?php
+    require_once('include/header.php');
+    ?>
     <div class="globalContainer">
-
-        <?php
-        require_once('include/header.php');
-        ?>
-
         <main>
             <aside class="menuLateral"></aside>
             <h1>Inscription</h1>

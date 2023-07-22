@@ -19,47 +19,46 @@ if(isset($_GET['action']) && $_GET['action'] == 'validate'){
 
 
 
-    <div class="globalContainer">
+    
 
-        <?php
-        $title = 'Profil de' . $_SESSION['user']['pseudo'];
-        require_once('include/header.php');
-        ?>
+<?php
+$title = 'Profil de' . $_SESSION['user']['pseudo'];
+require_once('include/header.php');
+?>
 
-        <main>
+        <div class="globalContainer">
 
-            <h1>Profil</h1>
+            <main>
 
-            <?= $validate ?>
+                <h1>Profil</h1>
 
-            <h2>
-                Bonjour <?= (internauteConnecteAdmin()) ?$_SESSION['user']['pseudo'] .  " vous êtes admin du site" : $_SESSION['user']['pseudo'] ?>
-            </h2>
-            <h3>Vos infos</h3>
-            <div class="infoProfil">
-                <ul>
-                    <li>
-                        <?= $_SESSION['user']['prenom'] ?>
-                    </li>
-                    <li>
-                        <?= $_SESSION['user']['nom'] ?>
-                    </li>
-                    <li>
-                        <?= $_SESSION['user']['pseudo'] ?>
-                    </li>
-                    <li>
-                        <?= $_SESSION['user']['email'] ?>
-                    </li>
-                    
-                </ul>
-            </div>
+                <?= $validate ?>
 
-        </main>
+                <h2>
+                    Bonjour <?= (internauteConnecteAdmin()) ?$_SESSION['user']['pseudo'] .  " vous êtes admin du site" : $_SESSION['user']['pseudo'] ?>
+                </h2>
+                <h3>Vos infos</h3>
+                <div class="infoProfil">
+                    <ul>
+                        <li>
+                            <?= $_SESSION['user']['prenom'] ?>
+                        </li>
+                        <li>
+                            <?= $_SESSION['user']['nom'] ?>
+                        </li>
+                        <li>
+                            <?= $_SESSION['user']['pseudo'] ?>
+                        </li>
+                        <li>
+                            <?= $_SESSION['user']['email'] ?>
+                        </li>
+                        
+                    </ul>
+                </div>
 
-        
+            </main>
 
-
-    </div>
+        </div>
 
 
 <?php require_once('include/footer.php');?>

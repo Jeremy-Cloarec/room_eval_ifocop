@@ -6,14 +6,18 @@ require_once('include/init.php');
 
 
 
-    <div class="globalContainer">
-        <?php require_once('include/header.php');?>
+
+<?php require_once('include/header.php');?>
 
         <?php
         require_once('include/header.php');
         ?>
+    <div class="globalContainer">
 
-        <h1>Fiche produit</h1>
+        <main>
+            <h1>Fiche produit</h1>
+        </main>
+        
 
 
     </div>
