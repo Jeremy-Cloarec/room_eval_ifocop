@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Jul 18, 2023 at 09:27 PM
--- Server version: 8.0.31
--- PHP Version: 8.0.26
+-- Host: 127.0.0.1
+-- Generation Time: Jul 22, 2023 at 12:33 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,15 +27,13 @@ SET time_zone = "+00:00";
 -- Table structure for table `avis`
 --
 
-DROP TABLE IF EXISTS `avis`;
-CREATE TABLE IF NOT EXISTS `avis` (
-  `id_avis` int NOT NULL,
-  `id_membre` int NOT NULL,
-  `id_salle` int NOT NULL,
-  `commentaire` text COLLATE utf8mb4_general_ci NOT NULL,
-  `note` int NOT NULL,
-  `date_enregistrement` datetime NOT NULL,
-  PRIMARY KEY (`id_avis`)
+CREATE TABLE `avis` (
+  `id_avis` int(11) NOT NULL,
+  `id_membre` int(11) NOT NULL,
+  `id_salle` int(11) NOT NULL,
+  `commentaire` text NOT NULL,
+  `note` int(11) NOT NULL,
+  `date_enregistrement` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -51,14 +49,12 @@ INSERT INTO `avis` (`id_avis`, `id_membre`, `id_salle`, `commentaire`, `note`, `
 -- Table structure for table `commande`
 --
 
-DROP TABLE IF EXISTS `commande`;
-CREATE TABLE IF NOT EXISTS `commande` (
-  `id_commande` int NOT NULL,
-  `id_membre` int NOT NULL,
-  `id_produit` int NOT NULL,
-  `prix` int NOT NULL,
-  `date_enregistrement` datetime NOT NULL,
-  PRIMARY KEY (`id_commande`)
+CREATE TABLE `commande` (
+  `id_commande` int(11) NOT NULL,
+  `id_membre` int(11) NOT NULL,
+  `id_produit` int(11) NOT NULL,
+  `prix` int(11) NOT NULL,
+  `date_enregistrement` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -66,9 +62,7 @@ CREATE TABLE IF NOT EXISTS `commande` (
 --
 
 INSERT INTO `commande` (`id_commande`, `id_membre`, `id_produit`, `prix`, `date_enregistrement`) VALUES
-(1, 1, 0, 0, '2016-06-15 14:10:00'),
-(2, 2, 0, 0, '2016-09-20 12:00:00'),
-(3, 3, 0, 0, '2016-10-03 09:50:00');
+(2, 1, 2, 0, '2023-07-21 19:40:48');
 
 -- --------------------------------------------------------
 
@@ -76,19 +70,17 @@ INSERT INTO `commande` (`id_commande`, `id_membre`, `id_produit`, `prix`, `date_
 -- Table structure for table `membre`
 --
 
-DROP TABLE IF EXISTS `membre`;
-CREATE TABLE IF NOT EXISTS `membre` (
-  `id_membre` int NOT NULL AUTO_INCREMENT,
-  `pseudo` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `mdp` varchar(60) COLLATE utf8mb4_general_ci NOT NULL,
-  `nom` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `prenom` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
-  `civilite` enum('m','f') COLLATE utf8mb4_general_ci NOT NULL,
-  `statut` int NOT NULL,
-  `date_enregistrement` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id_membre`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `membre` (
+  `id_membre` int(11) NOT NULL,
+  `pseudo` varchar(20) NOT NULL,
+  `mdp` varchar(60) NOT NULL,
+  `nom` varchar(20) NOT NULL,
+  `prenom` varchar(20) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `civilite` enum('m','f') NOT NULL,
+  `statut` int(11) NOT NULL,
+  `date_enregistrement` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `membre`
@@ -108,17 +100,14 @@ INSERT INTO `membre` (`id_membre`, `pseudo`, `mdp`, `nom`, `prenom`, `email`, `c
 -- Table structure for table `produit`
 --
 
-DROP TABLE IF EXISTS `produit`;
-CREATE TABLE IF NOT EXISTS `produit` (
-  `id_produit` int NOT NULL AUTO_INCREMENT,
-  `id_salle` int NOT NULL,
+CREATE TABLE `produit` (
+  `id_produit` int(11) NOT NULL,
+  `id_salle` int(11) NOT NULL,
   `date_arrivee` datetime NOT NULL,
   `date_depart` datetime NOT NULL,
-  `prix` int NOT NULL,
-  `etat` enum('Libre','Réservé') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id_produit`),
-  KEY `id_salle` (`id_salle`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `prix` int(11) NOT NULL,
+  `etat` enum('Libre','Réservé') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `produit`
@@ -135,20 +124,18 @@ INSERT INTO `produit` (`id_produit`, `id_salle`, `date_arrivee`, `date_depart`, 
 -- Table structure for table `salle`
 --
 
-DROP TABLE IF EXISTS `salle`;
-CREATE TABLE IF NOT EXISTS `salle` (
-  `id_salle` int NOT NULL AUTO_INCREMENT,
-  `titre` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
-  `description` text COLLATE utf8mb4_general_ci NOT NULL,
-  `photo` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
-  `pays` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `ville` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `adresse` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
-  `cp` int NOT NULL,
-  `capacite` int NOT NULL,
-  `categorie` enum('reunion','bureau','formation','') COLLATE utf8mb4_general_ci NOT NULL,
-  PRIMARY KEY (`id_salle`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+CREATE TABLE `salle` (
+  `id_salle` int(11) NOT NULL,
+  `titre` varchar(200) NOT NULL,
+  `description` text NOT NULL,
+  `photo` varchar(200) NOT NULL,
+  `pays` varchar(20) NOT NULL,
+  `ville` varchar(20) NOT NULL,
+  `adresse` varchar(20) NOT NULL,
+  `cp` int(11) NOT NULL,
+  `capacite` int(11) NOT NULL,
+  `categorie` enum('reunion','bureau','formation','') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `salle`
@@ -159,6 +146,71 @@ INSERT INTO `salle` (`id_salle`, `titre`, `description`, `photo`, `pays`, `ville
 (2, 'Mozart', 'Cette salle vous permettra de recevoir vos collaborateurs en petite comité', 'salle_2.png', 'France', 'Paris', '17 rue de Turbigo', 75002, 5, 'reunion'),
 (3, 'Picasso', 'Cette salle vous permettra de travailler au calme', 'salle_3.png', 'France', 'Paris', '28 quai Claude Berna', 69007, 2, 'bureau'),
 (4, 'Klimt', 'Fresque', '13000_essai.png', 'France', 'Marseille', '2 rue Klimt', 13000, 20, 'reunion');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `avis`
+--
+ALTER TABLE `avis`
+  ADD PRIMARY KEY (`id_avis`);
+
+--
+-- Indexes for table `commande`
+--
+ALTER TABLE `commande`
+  ADD PRIMARY KEY (`id_commande`),
+  ADD KEY `id_membre` (`id_membre`),
+  ADD KEY `commande_ibfk_1` (`id_produit`);
+
+--
+-- Indexes for table `membre`
+--
+ALTER TABLE `membre`
+  ADD PRIMARY KEY (`id_membre`);
+
+--
+-- Indexes for table `produit`
+--
+ALTER TABLE `produit`
+  ADD PRIMARY KEY (`id_produit`),
+  ADD KEY `id_salle` (`id_salle`);
+
+--
+-- Indexes for table `salle`
+--
+ALTER TABLE `salle`
+  ADD PRIMARY KEY (`id_salle`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `commande`
+--
+ALTER TABLE `commande`
+  MODIFY `id_commande` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `membre`
+--
+ALTER TABLE `membre`
+  MODIFY `id_membre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `produit`
+--
+ALTER TABLE `produit`
+  MODIFY `id_produit` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `salle`
+--
+ALTER TABLE `salle`
+  MODIFY `id_salle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
