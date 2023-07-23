@@ -31,13 +31,6 @@ h3{
     padding : 12px 0;
 }
 
-nav{
-    background-color: rgb(231, 231, 231);
-    padding: 10px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
 main{
     padding : 20px 25px;
@@ -119,8 +112,6 @@ a.espacemembre{
 }
 
 
-
-/* Page accueil */
 
 
 

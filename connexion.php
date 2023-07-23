@@ -8,8 +8,15 @@ require_once('include/fonctions.php');
 
 if (array_key_exists('action', $_GET) && $_GET['action'] =='deconnexion'){
     unset($_SESSION['user']); 
-    header('location:' .URL. 'connexion.php');
+    $validate .= '<div class="reussiteInscription"> Vous êtes bien déconnecté de votre session. À bientôt !</div>';
+    // header('location:' .URL. 'connexion.php');
+  
 }
+
+// if(isset($_GET['action']) && $_GET['action'] == 'deconnexion'){
+   
+
+// }
 
 
 //Redirection vers la page profil si l'internaute est déjà connecté

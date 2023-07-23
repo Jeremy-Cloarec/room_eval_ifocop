@@ -1,0 +1,29 @@
+nav{
+    background-color: rgb(231, 231, 231);
+    padding: 16px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ulMenu{
+    display: flex;
+    gap: 18px;
+}
+
+.ulMenu a{
+    transition: all 0.3s ease;
+    font-weight: 700;
+    &:hover{
+        opacity: 0.6;
+    }
+
+}
+
+@media(max-width:576px){
+    nav{
+        flex-direction: column;
+        gap: 18px;
+    }
+
+}

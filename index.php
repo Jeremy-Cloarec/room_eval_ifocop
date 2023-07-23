@@ -1,6 +1,7 @@
 <?php
 require_once('include/fonctions.php');
 require_once('include/init.php');
+require_once('include/affichage.php');
 
 $title= "Accueil";
 ?>
@@ -21,91 +22,28 @@ $title= "Accueil";
                     </div>
                     <div class="containerProduit">
                         <div class="gridProduit">
-                            <a href="#" class="containerCardSAlle">
-                                <div class="containerImage">
-                                    <img src="<?php URL ?>img/salle_1.png" alt="">
-                                </div>
-                                <div class="titreSalle">
-                                    <h3>Bureau Monet</h3>
-                                </div>
-                                <div class="titrePrix">
-                                    <p class="description">Parfait pour une réunion</p>
-                                    <p class="prix">1500 €</p>
-                                </div>
-                                <div class="etoiles">
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                </div>
-                            </a>
-                            <a href="#" class="containerCardSAlle">
-                                <div class="containerImage">
-                                    <img src="<?php URL ?>img/salle_1.png" alt="">
-                                </div>
-                                <div class="titreSalle">
-                                    <h3>Bureau Monet</h3>
-                                </div>
-                                <div class="titrePrix">
-                                    <p class="description">Parfait pour une réunion</p>
-                                    <p class="prix">1500 €</p>
-                                </div>
-                                <div class="etoiles">
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                </div>
-                            </a>
-                            <a href="#" class="containerCardSAlle">
-                                <div class="containerImage">
-                                    <img src="<?php URL ?>img/salle_1.png" alt="">
-                                </div>
-                                <div class="titreSalle">
-                                    <h3>Bureau Monet</h3>
-                                </div>
-                                <div class="titrePrix">
-                                    <p class="description">Parfait pour une réunion</p>
-                                    <p class="prix">1500 €</p>
-                                </div>
-                                <div class="etoiles">
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                </div>
-                            </a>
-                            <a href="#" class="containerCardSAlle">
-                                <div class="containerImage">
-                                    <img src="<?php URL ?>img/salle_1.png" alt="">
-                                </div>
-                                <div class="titreSalle">
-                                    <h3>Bureau Monet</h3>
-                                </div>
-                                <div class="titrePrix">
-                                    <p class="description">Parfait pour une réunion</p>
-                                    <p class="prix">1500 €</p>
-                                </div>
-                                <div class="etoiles">
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                </div>
-                            </a>
-                            <a href="#" class="containerCardSAlle">
-                                <div class="containerImage">
-                                    <img src="<?php URL ?>img/salle_1.png" alt="">
-                                </div>
-                                <div class="titreSalle">
-                                    <h3>Bureau Monet</h3>
-                                </div>
-                                <div class="titrePrix">
-                                    <p class="description">Parfait pour une réunion</p>
-                                    <p class="prix">1500 €</p>
-                                </div>
-                                <div class="etoiles">
-                                    <span class="material-symbols-outlined">
-                                        star
-                                    </span>
-                                </div>
-                            </a>
+
+                            
+
+                            <?php while($cards = $afficheCards ->fetch(PDO::FETCH_ASSOC)): ?>
+
+                                <a href="fiche_produit.php?id_salle=<?=$cards['id_salle']?>" class="containerCardSAlle">
+                                    <div class="containerImage">
+                                        <img src="<?php URL ?>img/<?=$cards['photo']?>" alt="">
+                                    </div>
+                                    <div class="titreSalle">
+                                        <h3>Salle <?=$cards['titre'] ?></h3>
+                                    </div>
+                                    <p class="prix"><?=$cards['prix'] ?>€/jour</p>
+                                    <div class="etoiles">
+                                        <span class="material-symbols-outlined">
+                                            star
+                                        </span>
+                                    </div>
+                                </a>
+
+                            <?php endwhile;?>
+
                         </div>
                     </div>
                 </div>

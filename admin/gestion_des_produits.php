@@ -91,7 +91,7 @@ require_once('includeAdmin/headerAdmin.php');
                         
                         <!-- On fait une jointure pour appeler les colonnes titre et photo de la table salle -->
                             
-                        <?php $afficheGestionProduit = $pdo->query("SELECT produit.id_produit, salle.id_salle, salle.photo, titre, DATE_FORMAT(date_arrivee, '%d/%m/%Y à %Hh %imn %ss'), DATE_FORMAT(date_depart, '%d/%m/%Y à %Hh %imn %ss'), prix, etat FROM produit, salle WHERE produit.id_salle = salle.id_salle ORDER BY produit.id_produit");
+                        <?php $afficheGestionProduit = $pdo->query("SELECT produit.id_produit, salle.id_salle, salle.photo, titre, DATE_FORMAT(date_arrivee, '%d/%m/%Y à %Hh %imn %ss'), DATE_FORMAT(date_depart, '%d/%m/%Y à %Hh %imn %ss'), produit.prix, etat FROM produit, salle WHERE produit.id_salle = salle.id_salle ORDER BY produit.id_produit");
 ?>
                             <thead>
                                 <tr>

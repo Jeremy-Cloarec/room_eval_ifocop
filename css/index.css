@@ -1,8 +1,12 @@
 
-
+.containerFicheProduit{
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
 .containerProduitFiltre{
     display: flex;
-    gap: 24px;
+    gap: 32px;
 }
 
 .containerFiltre{
@@ -18,15 +22,13 @@
 
 .gridProduit{
     display: grid;
-    grid-template-columns: repeat(3, minmax(170px, 300px));
+    grid-template-columns: repeat(4, minmax(170px, 300px));
     gap : 24px;
-    background-color: azure;
     width: fit-content;
     margin: auto;
 }
 
 .containerCardSAlle{
-
     display : flex;
     flex-direction: column;
     gap: 12px;
@@ -51,7 +53,5 @@
     .containerProduitFiltre{
         flex-direction: column;
     }
-
 }
-
 

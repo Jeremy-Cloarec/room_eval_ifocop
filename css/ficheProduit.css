@@ -1,0 +1,38 @@
+.containerFicheProduit{
+    max-width: 1200px;
+    margin: auto;
+}
+
+.titreNote{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.imageDescription{
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+
+.descriptionProduit{
+    flex:2 ;
+}
+
+.imageProduit{
+    flex: 5;
+}
+
+.imageDescription img{
+    width: 100%;
+}
+
+
+@media(max-width : 768px){
+    .imageDescription{
+        flex-direction: column;
+    }
+
+}
+
+
