@@ -142,7 +142,7 @@ require_once('include/init.php');
                             <label class="" for="civilite1">f</label>
                         </div>
                         <div class="">
-                            <input class="" type="radio" name="civilite" id="civilite2" value="m" checked>
+                            <input class="" type="radio" name="civilite" id="civilite2" value="m">
                             <label class="" for="civilite2">m</label>
                         </div>
                     </div>

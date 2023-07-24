@@ -5,8 +5,7 @@ require_once('include/fonctions.php');
 
 
         <footer>
-            <p>Footer</p>
-
+            © ROOM <?= date("Y");?>
         </footer>
 
     </body>

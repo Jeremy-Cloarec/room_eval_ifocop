@@ -31,7 +31,7 @@ if(!internauteConnecteAdmin()){
 
                     
                     <!-- Tableaux des membres -->
-
+                    
                     <h2>Nombre de produits en base de données : <?= $queryUsers->rowCount() ?></h2>
 
 
@@ -40,7 +40,7 @@ if(!internauteConnecteAdmin()){
                         
                         <!-- On fait une jointure pour appeler les colonnes titre et photo de la table salle -->
                             
-                        <?php $afficheGestionCommande = $pdo->query("SELECT id_commande, id_membre, id_produit, prix, DATE_FORMAT(date_enregistrement, '%d/%m/%Y à %Hh %imn %ss')AS date_enregistrement
+                        <?php $afficheGestionCommande = $pdo->query("SELECT id_commande, id_membre, pseudo, email, id_salle, prix, DATE_FORMAT(date_arrivee, '%d/%m/%Y à %Hh %imn %ss')AS date_arrivee, DATE_FORMAT(date_depart, '%d/%m/%Y à %Hh %imn %ss')AS date_depart
                         FROM commande
                         ORDER BY id_commande");
                         ?>

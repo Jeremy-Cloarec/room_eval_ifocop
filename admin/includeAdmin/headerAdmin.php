@@ -13,6 +13,7 @@ require_once('../include/fonctions.php');
     <title><?= $title ?></title>
     <link rel="stylesheet" href="<?= URL ?>admin/css_admin/style_admin.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+    <link rel="icon" type="image/x-icon" href="<?= URL ?>img/r.png">
 </head>
 <body>
     <header>

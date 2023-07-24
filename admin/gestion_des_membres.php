@@ -65,8 +65,13 @@ if(isset($_GET["action"])){
 
 
             $_POST['mdp'] = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
-
         }
+        
+
+        if (!isset($_POST['statut']) && $_POST['statut'] != '1' || $_POST['statut'] != '0') {
+            $erreur .= "<div class='affichageDanger'>Statut = vous devez choisir un nombre compris entre 1 (admin) et 0 (utilisateur)</div>";
+            }
+
 
         //Requête préparée pour l'insertion en BDD
 
@@ -74,7 +79,7 @@ if(isset($_GET["action"])){
 
             if($_GET['action']=='update'){
 
-                $modifierUser = $pdo->prepare("UPDATE membre SET  id_membre = :id_membre, pseudo = :pseudo, nom = :nom, prenom = :prenom, email = :email, civilite = :civilite WHERE id_membre = :id_membre");
+                $modifierUser = $pdo->prepare("UPDATE membre SET  id_membre = :id_membre, pseudo = :pseudo, nom = :nom, prenom = :prenom, email = :email, civilite = :civilite, statut = :statut WHERE id_membre = :id_membre");
 
                 $modifierUser->bindValue(':id_membre', $_POST['id_membre'], PDO::PARAM_INT);
                 $modifierUser->bindValue(':pseudo', $_POST['pseudo'], PDO::PARAM_STR);
@@ -83,6 +88,7 @@ if(isset($_GET["action"])){
                 $modifierUser->bindValue(':prenom', $_POST['prenom'], PDO::PARAM_STR);
                 $modifierUser->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
                 $modifierUser->bindValue(':civilite', $_POST['civilite'], PDO::PARAM_STR);
+                $modifierUser->bindValue(':statut', $_POST['statut'], PDO::PARAM_INT);
     
                 $modifierUser->execute();
 
@@ -96,7 +102,7 @@ if(isset($_GET["action"])){
                 
             }else{
 
-                $ajouterUser = $pdo->prepare("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite)");
+                $ajouterUser = $pdo->prepare("INSERT INTO membre (pseudo, mdp, nom, prenom, email, civilite,statut) VALUES (:pseudo, :mdp, :nom, :prenom, :email, :civilite, :statut)");
 
                 $ajouterUser->bindValue(':pseudo', $_POST['pseudo'], PDO::PARAM_STR);
                 $ajouterUser->bindValue(':mdp', $_POST['mdp'], PDO::PARAM_STR);
@@ -104,6 +110,7 @@ if(isset($_GET["action"])){
                 $ajouterUser->bindValue(':prenom', $_POST['prenom'], PDO::PARAM_STR);
                 $ajouterUser->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
                 $ajouterUser->bindValue(':civilite', $_POST['civilite'], PDO::PARAM_STR);
+                $ajouterUser->bindValue(':statut', $_POST['statut'], PDO::PARAM_INT);
 
                 $ajouterUser->execute();
 
@@ -129,6 +136,7 @@ if(isset($_GET["action"])){
         $prenom = (isset($userActuel['prenom'])) ? $userActuel['prenom'] : "";
         $email = (isset($userActuel['email'])) ? $userActuel['email'] : "";
         $civilite = (isset($userActuel['civilite'])) ? $userActuel['civilite'] : "";
+        $statut = (isset($userActuel['statut'])) ? $userActuel['statut'] : "";
 
     
 
@@ -290,7 +298,7 @@ require_once('includeAdmin/headerAdmin.php');
                                     </label>
                                     <input class="" type="email" name="email" id="email" placeholder="Votre email" value="<?= $email ?>">
                                 </div>
-                                <div class="">
+                                <div class="champInput">
                                     <p>
                                         <div class="">Civilité</div>
                                     </p>
@@ -302,6 +310,13 @@ require_once('includeAdmin/headerAdmin.php');
                                         <input class="" type="radio" name="civilite" id="civilite2" value="m" <?= ($civilite == "m") ? "checked" : "" ?>>
                                         <label class="" for="civilite2">m</label>
                                     </div>
+                                
+                                </div>
+                                <div class="champInput">
+                                    <label class="" for="statut">
+                                    statut
+                                    </label>
+                                    <input class="" type="text" name="statut" id="statut" placeholder="statut" value="<?= $statut ?>">
                                 </div>
                                 <div class="champInput">
                                     <button name="buttonMembres" class="buttonFormulaire">Valider</button>

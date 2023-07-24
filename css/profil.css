@@ -1,0 +1,43 @@
+
+.containeProfil{
+    display: flex;
+    max-width: 1200px;
+    margin: auto;
+    gap: 24px;
+}
+
+.containeInfoProfil{
+    flex:2;
+}
+
+.containerCommande{
+    flex: 3;
+}
+/* Tableau */
+
+.table-container {
+    overflow-x:auto;
+    width: 100%;
+
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgb(249, 227, 227);
+}
+
+th, td {
+padding: 8px;
+border: 3px solid #ffffff;
+border-radius: 4px;
+text-align: center;
+}
+
+@media(max-width:900px){
+    .containeProfil{
+        flex-direction: column;
+    }
+
+}
+

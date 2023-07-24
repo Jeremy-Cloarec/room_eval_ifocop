@@ -12,4 +12,10 @@
 
         $afficheProduit = $pdo->query("SELECT * FROM salle WHERE id_salle = '$_GET[id_salle]' ");
         $produit = $afficheProduit -> fetch(PDO::FETCH_ASSOC);
+
+        
+
+        $afficheMembreCommande = $pdo->query("SELECT * FROM membre");
+        
+       
     }

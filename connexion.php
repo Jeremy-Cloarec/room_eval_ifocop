@@ -10,13 +10,15 @@ if (array_key_exists('action', $_GET) && $_GET['action'] =='deconnexion'){
     unset($_SESSION['user']); 
     $validate .= '<div class="reussiteInscription"> Vous êtes bien déconnecté de votre session. À bientôt !</div>';
     // header('location:' .URL. 'connexion.php');
-  
 }
 
-// if(isset($_GET['action']) && $_GET['action'] == 'deconnexion'){
-   
+if (array_key_exists('action', $_GET) && $_GET['action'] =='ficheProduit'){
+    $erreur .= '<div class="affichageDanger">Pour réserver une salle, vous devez vous connecter ou <span class="lienSpan"><a href="inscription.php">vous inscrire</a></span></div>';
+    // header('location:' .URL. 'connexion.php');
+}
 
-// }
+
+
 
 
 //Redirection vers la page profil si l'internaute est déjà connecté

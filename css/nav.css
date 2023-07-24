@@ -9,6 +9,7 @@ nav{
 .ulMenu{
     display: flex;
     gap: 18px;
+    flex-wrap: wrap;
 }
 
 .ulMenu a{

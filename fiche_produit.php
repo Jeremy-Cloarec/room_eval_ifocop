@@ -1,15 +1,18 @@
 
 <?php
+
+
+
+
 require_once('include/fonctions.php');
 require_once('include/init.php');
 require_once('include/affichage.php');
 
+
+
 $title = 'Salle ' . $produit['titre'];
 
-if(!internauteConnecte()){
-    header('location:' . URL . 'connexion.php');
-    exit();
-}
+
 
 
 
@@ -29,16 +32,27 @@ if($_POST){
     }
 
     if(empty($erreur)){
+        if(internauteConnecte()){
+            $ajoutCommande= $pdo->prepare("INSERT INTO commande (id_membre, id_salle, pseudo, email, prix, date_depart, date_arrivee) VALUES( :id_membre, :id_salle, :pseudo, :email, :prix, :date_depart, :date_arrivee)");
 
-        $ajoutCommande= $pdo->prepare("INSERT INTO commande (id_membre, id_salle, prix, date_depart, date_arrivee) VALUES( :id_membre, :id_salle, :prix, :date_depart, :date_arrivee)");
+            $ajoutCommande->bindValue(':id_membre', $_POST['id_membre'], PDO::PARAM_INT);
+            $ajoutCommande->bindValue(':id_salle', $_POST['id_salle'], PDO::PARAM_INT);
+            $ajoutCommande->bindValue(':pseudo', $_POST['pseudo'], PDO::PARAM_STR);
+            $ajoutCommande->bindValue(':email', $_POST['email'], PDO::PARAM_STR);
+            $ajoutCommande->bindValue(':prix', $_POST['prix'], PDO::PARAM_INT);
+            $ajoutCommande->bindValue(':date_depart', $_POST['date_depart'], PDO::PARAM_STR);
+            $ajoutCommande->bindValue(':date_arrivee', $_POST['date_arrivee'], PDO::PARAM_STR);
 
-        $ajoutCommande->bindValue(':id_membre', $_POST['id_membre'], PDO::PARAM_INT);
-        $ajoutCommande->bindValue(':id_salle', $_POST['id_salle'], PDO::PARAM_INT);
-        $ajoutCommande->bindValue(':prix', $_POST['prix'], PDO::PARAM_INT);
-        $ajoutCommande->bindValue(':date_depart', $_POST['date_depart'], PDO::PARAM_STR);
-        $ajoutCommande->bindValue(':date_arrivee', $_POST['date_arrivee'], PDO::PARAM_STR);
+            $ajoutCommande->execute();
 
-        $ajoutCommande->execute();
+
+            $validate.= '<div class="reussiteInscription"> Votre réservaton a bien été prise en compte ! Vous pouvez la retrouver dans votre page profil</div>';
+
+        } else{
+            header('location:' . URL . 'connexion.php?action=ficheProduit');
+        }
+
+        
     }
 
 }
@@ -58,9 +72,6 @@ if($_POST){
 
                     <div class="titreNote">
                         <h1>Salle <?= $produit['titre']?></h1>
-                        <span class="material-symbols-outlined">
-                            star
-                        </span>
                     </div>
                     <div class="imageDescription">
                         <div class="imageProduit">
@@ -93,6 +104,9 @@ if($_POST){
                         <h2>Réservez votre salle</h2>
 
                         <?= $erreur; ?>
+                        <?= $validate; ?>
+
+
 
             
                         
@@ -101,14 +115,36 @@ if($_POST){
                             <!-- id_membre -->
 
                             <div class="champInput">
-                                <input class="" type="hidden" name="id_membre" value="<?= $_SESSION["user"]["id_membre"]?>">
+                                <input class="" type="hidden" name="id_membre" value="<?= (internauteConnecte()) ? $_SESSION["user"]["id_membre"]:"";?>">
                             </div>
 
-                            <!-- id_produit -->
+                            <!-- id_salle -->
 
                             <div class="champInput">
                                 <input class="" type="hidden" name="id_salle" value="<?= $produit['id_salle']?>">
                             </div>
+
+                            <?php while( $membreCommande = $afficheMembreCommande -> fetch(PDO::FETCH_ASSOC)):?> 
+
+                                <?php if(internauteConnecte()):?>
+                                
+                                    <?php if($membreCommande['id_membre'] == $_SESSION["user"]["id_membre"]) :?>
+
+                                        <!-- id_pseudo -->
+
+                                        <div class="champInput">
+                                            <input class="" type="hidden" name="pseudo" value="<?=$membreCommande['pseudo']?>">
+                                        </div>
+
+                                        <!-- email -->
+
+                                        <div class="champInput">
+                                            <input class="" type="hidden" name="email" value="<?=$membreCommande['email']?>">
+                                        </div>
+                                    <?php endif ?>
+                                <?php endif; ?>
+
+                            <?php endwhile;?>
 
                             <!-- Date arrivée-->
 
@@ -135,16 +171,10 @@ if($_POST){
                             </div>
 
                             <div class="champInput">
-                                <button name="buttonReservationSalle" class="buttonFormulaire">Valider</button>
+                                <button name="buttonReservationSalle" class="buttonFormulaire">Réserver votre salle</button>
                             </div>
 
                         </form>
-
-
-
-
-
-
 
                     </div>
                     <div class="containerAutresProduits">
@@ -161,11 +191,6 @@ if($_POST){
                                             <h3>Salle <?=$cards['titre'] ?></h3>
                                         </div>
                                         <p class="prix"><?=$cards['prix'] ?>€/jour</p>
-                                        <div class="etoiles">
-                                            <span class="material-symbols-outlined">
-                                                star
-                                            </span>
-                                        </div>
                                     </a>
                                 <?php endif;?>
                             <?php endwhile; ?>

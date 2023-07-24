@@ -1,0 +1,25 @@
+
+
+.containerFiltre{
+    padding: 12px;
+    padding-bottom: 24px;
+    border-radius: 12px;
+    background-color: rgba(231, 231, 231, 0.342);
+    height: fit-content;
+
+}
+
+.filtreContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.filtreContainer a{
+    display: inline;
+    padding: 12px;
+    border:1px solid black;
+    text-align: center;
+    border-radius: 24px;
+    background-color: white;
+}

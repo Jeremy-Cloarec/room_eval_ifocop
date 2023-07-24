@@ -7,16 +7,15 @@
 .containerProduitFiltre{
     display: flex;
     gap: 32px;
+
 }
 
 .containerFiltre{
-    background-color: pink;
     flex: 1;
-    min-height: 180px;
+
 }
 
 .containerProduit{
-    background-color: rgb(169, 221, 173);
     flex: 3;
 }
 
@@ -40,7 +39,8 @@
 
 .containerImage img{
     width: 100%;
-    object-fit:contain;
+    object-fit: cover;
+    height: 200px;
 }
 
 
@@ -52,6 +52,19 @@
 @media(max-width : 1200px){
     .containerProduitFiltre{
         flex-direction: column;
+    }
+}
+
+@media(max-width : 900px){
+    .gridProduit{
+        grid-template-columns: repeat(3, minmax(170px, 300px));;
+    }
+}
+
+@media(max-width : 576px){
+    .gridProduit{
+        grid-template-columns: repeat(2, minmax(0px, 300px));
+        gap: 16px;
     }
 }
 

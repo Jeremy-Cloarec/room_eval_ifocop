@@ -31,9 +31,14 @@ if(isset($_GET["action"])){
             $erreur .= "<div class='affichageDanger'> Titre : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre titre devra comporter au minimum trois caractère et 30 au maximum.</div>";
         }
 
+         //Prix
+         if(!isset($_POST['prix']) || !preg_match('#^[0-9]{1,5}$#', $_POST['prix']) ){
+            $erreur .= "<div class='affichageDanger'>Prix : Le prix ne doit pas être vide et doit comporter seulement des nombres</div>";
+        }
+
         //Description
-        if (!isset($_POST['description']) || iconv_strlen($_POST['description']) < 3 || iconv_strlen($_POST['description']) > 80) {
-            $erreur .= "<div class='affichageDanger'> Prénom : Pour ce champ, vous avez le droit d'utiliser tous les caractères alphanumériques. Les caractères spéciaux suivant : -_. et votre description devra comporter au minimum trois caractère et 80 au maximum.</div>";
+        if (!isset($_POST['description']) || iconv_strlen($_POST['description']) < 3 || iconv_strlen($_POST['description']) > 200) {
+            $erreur .= "<div class='affichageDanger'> Description : </div>";
         }
 
         //Photo
@@ -106,7 +111,7 @@ if(isset($_GET["action"])){
         }
 
         //Categorie
-        if (!isset($_POST['categorie']) || $_POST['categorie'] != 'reunion' && $_POST['categorie'] != 'bureau') {
+        if (!isset($_POST['categorie']) || $_POST['categorie'] != 'reunion' && $_POST['categorie'] != 'bureau' && $_POST['categorie'] != 'formation') {
         $erreur .= "<div class='affichageDanger'>Catégorie : vous devez sélectionner une des options pour la catégorie</div>";
         }
 
@@ -118,10 +123,11 @@ if(isset($_GET["action"])){
             if($_GET['action']=='update'){
 
 
-                $modifieSalle = $pdo->prepare ("UPDATE salle SET  id_salle = :id_salle, titre = :titre, description = :description, photo = :photo, pays = :pays, ville = :ville, adresse = :adresse,  cp = :cp, capacite = :capacite, categorie = :categorie WHERE id_salle = :id_salle");
+                $modifieSalle = $pdo->prepare ("UPDATE salle SET  id_salle = :id_salle, titre = :titre, prix = :prix, description = :description, photo = :photo, pays = :pays, ville = :ville, adresse = :adresse,  cp = :cp, capacite = :capacite, categorie = :categorie WHERE id_salle = :id_salle");
 
                 $modifieSalle->bindValue(':id_salle', $_POST['id_salle'], PDO::PARAM_INT);
                 $modifieSalle->bindValue(':titre', $_POST['titre'], PDO::PARAM_STR);
+                $modifieSalle->bindValue(':prix', $_POST['prix'], PDO::PARAM_INT);
                 $modifieSalle->bindValue(':description', $_POST['description'], PDO::PARAM_STR);
                 $modifieSalle->bindValue(':photo', $photo_bdd, PDO::PARAM_STR);
                 $modifieSalle->bindValue(':pays', $_POST['pays'], PDO::PARAM_STR);
@@ -144,7 +150,7 @@ if(isset($_GET["action"])){
                 
             }else{
 
-                $ajouterSalle = $pdo->prepare("INSERT INTO salle (titre, description, photo, pays, ville, adresse, cp, capacite, categorie) VALUES (:titre, :description, :photo, :pays, :ville, :adresse, :cp, :capacite, :categorie)");
+                $ajouterSalle = $pdo->prepare("INSERT INTO salle (titre, prix, description, photo, pays, ville, adresse, cp, capacite, categorie) VALUES (:titre, :prix, :description, :photo, :pays, :ville, :adresse, :cp, :capacite, :categorie)");
                 
                 
                 $ajouterSalle->bindValue(':titre', $_POST['titre'], PDO::PARAM_STR);
@@ -178,6 +184,7 @@ if(isset($_GET["action"])){
 
         $id_salle = (isset($salleActuelle['id_salle'])) ? $salleActuelle['id_salle'] : "";
         $titre = (isset($salleActuelle['titre'])) ? $salleActuelle['titre'] : "";
+        $prix = (isset($salleActuelle['prix'])) ? $salleActuelle['prix'] : "";
         $description = (isset($salleActuelle['description'])) ? $salleActuelle['description'] : "";
         $photo = (isset($salleActuelle['photo'])) ? $salleActuelle['photo'] : "";
         $pays = (isset($salleActuelle['pays'])) ? $salleActuelle['pays'] : "";
@@ -261,7 +268,7 @@ require_once('includeAdmin/headerAdmin.php');
                     <div class="modifFormulaire">
                         <a href="<?= $actionbutton;?>" class="espacemembre btnModifFormulaire">
                             <?php if(isset($_GET['action'])): ?>
-                                Ajouter un utilisateur
+                                Ajouter une salle
                             
                             <?php else:?>
                                 
@@ -298,6 +305,15 @@ require_once('includeAdmin/headerAdmin.php');
                                     </label>
                                     <input class="" type="text" value="<?= $titre ?>" name="titre" id="titre" placeholder="Entrez votre titre">
                                 </div>
+
+                                <!-- prix -->
+
+                                <div class="champInput">
+                                        <label class="" for="prix">
+                                            Prix
+                                        </label>
+                                        <input class="" type="text" name="prix" id="prix" value="<?= $prix?>" placeholder="prix">
+                                    </div>
 
                                 <!-- Description-->
 
@@ -393,6 +409,7 @@ require_once('includeAdmin/headerAdmin.php');
                                         <option value="">--Choississez une option--</option>
                                         <option value="reunion"<?=($categorie=='reunion') ? 'selected': ''?>>Réunion</option>
                                         <option value="bureau"<?=($categorie=='bureau') ? 'selected': ''?>>Bureau</option>
+                                        <option value="formation"<?=($categorie=='formation') ? 'selected': ''?>>Formation</option>
                                     </select>
                                 </div>
 
